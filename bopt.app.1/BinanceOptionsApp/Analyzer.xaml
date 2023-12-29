@@ -1,0 +1,20 @@
+﻿<Window x:Class="BinanceOptionsApp.Analyzer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:VisualMarketsEngine;assembly=VisualMarketsEngine"
+        xmlns:local="clr-namespace:BinanceOptionsApp"
+        mc:Ignorable="d"
+        Title="{DynamicResource locTabDataFeedAnalyze}" Height="600" Width="800" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner"
+                xmlns:cs="clr-namespace:BinanceOptionsApp.CustomStyles"
+        ResizeMode="NoResize"
+        Foreground="White" 
+        FontSize="14"
+        xmlns:controls="clr-namespace:BinanceOptionsApp.Controls"
+        Icon="Res/AppIcon.ico">
+    <Grid Background="Gray">
+       
+        <vm:ChartGroup x:Name="chartGroup"></vm:ChartGroup>
+    </Grid>
+</Window>

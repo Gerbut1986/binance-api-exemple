@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ConnectionsModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Connections>
+    <ConnectionModel xsi:type="BinanceConnectionModel">
+      <Name>Binance - O6Lyrsb3[SPOT]</Name>
+      <Key>O6Lyrsb3lGeGUskykMKeGZy6bpco0G6ICPmBHop3YvcZzTWQ9dEcWxcOwgCtQQop</Key>
+      <Secret>wRm9teiZbDDc2XyEZ8dQX4aR5CpDQTIwwRM4EoXMCPCI3FAh8hiuc913PwZekioh</Secret>
+      <AccountTradeType>SPOT</AccountTradeType>
+      <PositionMode>None</PositionMode>
+    </ConnectionModel>
+    <ConnectionModel xsi:type="BinanceOptionConnectionModel">
+      <Name>BinanceOption - O6Lyrsb3[OPTION]</Name>
+      <Key>O6Lyrsb3lGeGUskykMKeGZy6bpco0G6ICPmBHop3YvcZzTWQ9dEcWxcOwgCtQQop</Key>
+      <Secret>wRm9teiZbDDc2XyEZ8dQX4aR5CpDQTIwwRM4EoXMCPCI3FAh8hiuc913PwZekioh</Secret>
+      <AccountTradeType>OPTION</AccountTradeType>
+      <PositionMode>None</PositionMode>
+    </ConnectionModel>
+  </Connections>
+</ConnectionsModel>

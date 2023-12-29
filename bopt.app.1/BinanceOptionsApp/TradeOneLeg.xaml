@@ -1,0 +1,498 @@
+﻿<UserControl x:Class="BinanceOptionsApp.TradeOneLeg"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BinanceOptionsApp"
+             xmlns:controls="clr-namespace:BinanceOptionsApp.Controls"
+             xmlns:vm="clr-namespace:VisualMarketsEngine;assembly=VisualMarketsEngine"
+             xmlns:models="clr-namespace:BinanceOptionsApp.Models"
+             mc:Ignorable="d"
+             d:DesignHeight="750" d:DesignWidth="1420">
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="CustomStyles/ListBoxStyles.xaml"></ResourceDictionary>
+                    <ResourceDictionary Source="CustomStyles/TextBoxStyles.xaml"></ResourceDictionary>
+                    <ResourceDictionary Source="CustomStyles/GroupBoxStyles.xaml"></ResourceDictionary>
+
+                    <ResourceDictionary Source="CustomStyles/CheckBoxStyles.xaml"></ResourceDictionary>
+                    <ResourceDictionary Source="CustomStyles/ScrollBarStyles.xaml"></ResourceDictionary>
+                </ResourceDictionary.MergedDictionaries>
+                <Style TargetType="TextBox" BasedOn="{StaticResource LightTextBox}"></Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource LightTextBlock}"></Style>
+
+                <Style TargetType="ScrollBar" BasedOn="{StaticResource LightScrollBar}"></Style>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource LightCheckBox}"></Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <GroupBox Header="SPOT" Margin="5" Grid.Row="0" Foreground="White" 
+                      IsEnabled="{Binding Started,Converter={StaticResource bToBi}}" 
+                      Background="Black">
+                    <Grid Background="#efefef">
+                        <local:ProviderControl VerticalAlignment="Center" x:Name="fast" Margin="5"></local:ProviderControl>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="OPTIONS" Margin="5" Grid.Row="1" IsEnabled="{Binding Started,Converter={StaticResource bToBi}}" Foreground="White" 
+                      Background="Black">
+                    <Grid Background="#efefef">
+                        <local:ProviderControl x:Name="slow" VerticalAlignment="Center" Margin="5"></local:ProviderControl>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            <Grid Grid.Row="1">
+                <GroupBox Foreground="White" Header="Momitor" Margin="5"
+                      Background="Black">
+                    <Grid Background="#efefef" Grid.IsSharedSizeScope="True">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Margin="5,2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="GG1"></ColumnDefinition>
+                                <ColumnDefinition Width="3"></ColumnDefinition>
+                                <ColumnDefinition Width="45*"></ColumnDefinition>
+                                <ColumnDefinition Width="151*"/>
+                                <ColumnDefinition Width="3"></ColumnDefinition>
+                                <ColumnDefinition Width="196*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" Grid.Column="3" Text="SPOT" Margin="39,0,0,0"/>
+                            <TextBlock VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Grid.Column="5" Text="OPTION"/>
+                            <TextBlock VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" Text="{DynamicResource locTabAsk}" Margin="24,0,0,0"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Text="{DynamicResource locTabBid}" Margin="22,0,0,0"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0" Text="Spread:" Margin="4,0,0,0"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="0" Text="{DynamicResource locTabTime}" Margin="15,0,0,0"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0" Text="Δτ" Margin="30,0,0,0"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="0" Text="{DynamicResource locTabLot}" Margin="24,0,0,0"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Grid.Row="7" Text="{DynamicResource locTabBalance}"/>
+
+                            <TextBox IsReadOnly="True" TextAlignment="Center" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="3,1,0,1">
+                                <MultiBinding Converter="{StaticResource priceConv}">
+                                    <Binding Path="Fast"></Binding>
+                                    <Binding Path="Fast.Ask"></Binding>
+                                </MultiBinding>
+                            </TextBox>
+                            <TextBox VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Margin="3,0,0,0">
+                                <TextBox.Text>
+                                    <MultiBinding Converter="{StaticResource priceConv}">
+                                        <Binding Path="Slow"></Binding>
+                                        <Binding Path="Slow.Bid"></Binding>
+                                    </MultiBinding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <TextBox IsReadOnly="True" TextAlignment="Center" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="3,1,0,1">
+                                <TextBox.Text>
+                                    <MultiBinding Converter="{StaticResource priceConv}">
+                                            <Binding Path="Fast"></Binding>
+                                            <Binding Path="Fast.Bid"></Binding>
+                                        </MultiBinding>
+                                    </TextBox.Text>    
+                            </TextBox>
+                            <TextBox VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Margin="3,0,0,0">
+                                <TextBox.Text>
+                                    <MultiBinding Converter="{StaticResource priceConv}">
+                                        <Binding Path="Slow"></Binding>
+                                        <Binding Path="Slow.Ask"></Binding>
+                                    </MultiBinding>
+                                </TextBox.Text>
+                            </TextBox>
+
+                            <TextBox IsReadOnly="True" TextAlignment="Center" Grid.Row="3" Grid.Column="1" Text="{Binding Fast.ViewSpread}" Grid.ColumnSpan="3" Margin="3,1,0,1"/>
+                            <TextBox VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" Grid.Row="3" Grid.Column="4" Text="{Binding Slow.ViewSpread}" Grid.ColumnSpan="2" Margin="3,0,0,0"></TextBox>
+
+
+                            <TextBox IsReadOnly="True" TextAlignment="Center" Grid.Row="4" Grid.Column="1" Text="{Binding Fast.Time,Converter={StaticResource dtToTS}}" Grid.ColumnSpan="3" Margin="3,1,0,1"/>
+                            <TextBox VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" Grid.Row="4" Grid.Column="4" Text="{Binding Slow.Time,Converter={StaticResource dtToTS}}" Grid.ColumnSpan="2" Margin="3,0,0,0"></TextBox>
+
+                            <TextBox IsReadOnly="True" TextAlignment="Center" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Margin="3,1,0,1">
+                                <TextBox.Text>
+                                    <MultiBinding Converter="{StaticResource tickSpeedConv}">
+                                        <Binding Path="Fast.AverageTimeBetweenTicks"></Binding>
+                                        <Binding Path="Fast.MaxTPS"></Binding>
+                                    </MultiBinding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <TextBox VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Margin="3,0,0,0">
+                                <TextBox.Text>
+                                    <MultiBinding Converter="{StaticResource tickSpeedConv}">
+                                        <Binding Path="Slow.AverageTimeBetweenTicks"></Binding>
+                                        <Binding Path="Slow.MaxTPS"></Binding>
+                                    </MultiBinding>
+                                </TextBox.Text>
+                            </TextBox>
+
+                            <TextBox IsReadOnly="True" TextAlignment="Center" Grid.Row="6" Grid.Column="1" Text="{Binding Fast.Volume,Converter={StaticResource volConv}}" Grid.ColumnSpan="3" Margin="3,1,0,1"/>
+                            <TextBox VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" Grid.Row="6" Grid.Column="4" Text="{Binding Slow.Volume,Converter={StaticResource volConv}}" Grid.ColumnSpan="2" Margin="3,0,0,0"></TextBox>
+
+                            <TextBox IsReadOnly="True" TextAlignment="Center" Grid.Row="7" Grid.Column="1" Text="{Binding Fast.Balance,Converter={StaticResource balConv}}" Grid.ColumnSpan="3" Margin="3,0,0,0" Grid.RowSpan="2"/>
+                            <TextBox VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" Grid.Row="7" Grid.Column="4" Text="{Binding Slow.Balance,Converter={StaticResource balConv}}" Grid.ColumnSpan="2" Margin="3,0,0,0"></TextBox>
+                        </Grid>
+                        <Grid Grid.Row="2" Margin="5,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="GG1"></ColumnDefinition>
+                                <ColumnDefinition Width="3"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="3"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <GroupBox Foreground="White" Header="{DynamicResource locTabTrading}" Grid.Row="0" Margin="5,5,5,0" Background="Black" Grid.RowSpan="2">
+                <Grid Background="{StaticResource cwGrayBackground}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Foreground="Black" Header="{DynamicResource locTabProcess}" Margin="5,3" Padding="5,3"
+                              Style="{StaticResource LightGroupBox}">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" IsEnabled="{Binding Started,Converter={StaticResource bToBi}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox Foreground="Black" IsChecked="{Binding Log}" Content="{DynamicResource locTabLogCheck}"></CheckBox>
+                                    <CheckBox Foreground="Black" IsChecked="{Binding SaveTicks}" Margin="5,0,0,0" Content="{DynamicResource locTabSaveCheck}"></CheckBox>
+                                </StackPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="3"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabSlippage}"></TextBlock>
+                                    <controls:IntegerTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Slippage,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></controls:IntegerTextBox>
+                                    <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabPoint}"></TextBlock>
+                                    <controls:DecimalTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Point,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="8"></controls:DecimalTextBox>
+                                </Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="3"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabMagic}"></TextBlock>
+                                    <controls:IntegerTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Magic,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></controls:IntegerTextBox>
+                                </Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="3"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="3"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                            </StackPanel>
+                            <Grid Height="Auto" Margin="0,100">
+                                <Button x:Name="buStart" Background="Green" Foreground="White" Click="BuStart_Click" Visibility="{Binding Started,Converter={StaticResource bToVi}}" Content="{DynamicResource locStart}" VerticalAlignment="Center" Margin="49,0,49,0"/>
+                                <Button x:Name="buStop" Background="Red" Foreground="White" Click="BuStop_Click" Visibility="{Binding Started,Converter={StaticResource bToV}}" Content="{DynamicResource locStop}" Margin="49,0,49,0"/>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Foreground="Black" Header="{DynamicResource locTabInput}" Margin="0,3,5,3" Padding="5,3" Grid.Column="1" IsEnabled="{Binding Started,Converter={StaticResource bToBi}}"
+                              Style="{StaticResource LightGroupBox}">
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{DynamicResource locTabShiftBid}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Open.ShiftBid,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="5"></controls:DecimalTextBox>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{DynamicResource locTabShiftAsk}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Open.ShiftAsk,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="5"></controls:DecimalTextBox>
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="MinSpread:"></TextBlock>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabMaxSpread}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Open.MinSpread,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></controls:DecimalTextBox>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Open.MaxSpread,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabMinSpreadSlow}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Open.MinSpreadSlow,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabMaxSpreadSlow}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Open.MaxSpreadSlow,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                            </Grid>
+                            <Grid x:Name="workTimeGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabStartTime}"></TextBlock>
+                                <TextBox Foreground="Black" Grid.Row="1" Grid.Column="0" Text="{Binding Open.StartTime,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></TextBox>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabStopTime}"></TextBlock>
+                                <TextBox Foreground="Black" Grid.Row="1" Grid.Column="2" Text="{Binding Open.EndTime,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></TextBox>
+                            </Grid>
+
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Foreground="Black" Margin="0,3,5,3" Padding="5,3" Grid.Column="2" Style="{StaticResource LightGroupBox}">
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Foreground="Black" IsChecked="{Binding AllowOpen}" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{DynamicResource locTabOpen}"></CheckBox>
+                                <TextBlock Foreground="Black" x:Name="tbOpenOrderType" TextDecorations="Underline" Margin="15,0,0,0" Cursor="Hand" MouseLeftButtonUp="TbOpenOrderType_MouseLeftButtonUp" Text="{Binding Open.OrderTypeString}"></TextBlock>
+                            </StackPanel>
+                        </GroupBox.Header>
+
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabLot}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Open.Lot,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="8"></controls:DecimalTextBox>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabRiskPercent}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Open.RiskPercent,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabMinLevelOpen}" Grid.ColumnSpan="2"></TextBlock>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locMinTPS}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Open.MinimumLevel,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Open.MinimumTPS,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabOpenTimer}"></TextBlock>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabFreezeTime}"></TextBlock>
+                                <controls:IntegerTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Open.OpenTimerMs,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></controls:IntegerTextBox>
+                                <controls:IntegerTextBox x:Name="tbFreezeTime" Grid.Row="1" Grid.Column="2" Value="{Binding Open.FreezeTime,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></controls:IntegerTextBox>
+                            </Grid>
+                            <Grid x:Name="minFastGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabMinFastCoef}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Open.MinFastCoef,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabFastCoefPeriod}"></TextBlock>
+                                <controls:IntegerTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Open.FastCoefPeriod,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></controls:IntegerTextBox>
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Margin="0,3,5,3" Padding="5,3" Grid.Column="3" Style="{StaticResource LightGroupBox}">
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Foreground="Black" Text="{DynamicResource locTabClose}"></TextBlock>
+                                <TextBlock x:Name="tbCloseOrderType" TextDecorations="Underline" Margin="15,0,0,0" Cursor="Hand" MouseLeftButtonUp="TbCloseOrderType_MouseLeftButtonUp" Text="{Binding Close.OrderTypeString}"></TextBlock>
+                            </StackPanel>
+                        </GroupBox.Header>
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Foreground="Black" Text="{DynamicResource locTabMinLevelClose}"></TextBlock>
+                            <controls:DecimalTextBox Value="{Binding Close.MinimumLevelClose,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+
+                            <Grid x:Name="gridMinOrderTime">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabMinOrderTime}"></TextBlock>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabCloseTimer}"></TextBlock>
+                                <controls:IntegerTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Open.MinOrderTimeSec,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></controls:IntegerTextBox>
+                                <controls:IntegerTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Close.CloseTimerSec,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></controls:IntegerTextBox>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabFixTP}"></TextBlock>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabFixSL}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Close.FixTP,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Close.FixSL,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="3"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource locTabFixTrailStart}"></TextBlock>
+                                <TextBlock Foreground="Black" Grid.Row="0" Grid.Column="2" Text="{DynamicResource locTabFixTrailStop}"></TextBlock>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="0" Value="{Binding Close.FixTrailStart,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                                <controls:DecimalTextBox Grid.Row="1" Grid.Column="2" Value="{Binding Close.FixTrailStop,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FractionalPart="2"></controls:DecimalTextBox>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <GroupBox Header="     Log" Foreground="White" Grid.Row="1" Grid.ColumnSpan="2" Margin="5" Background="Gray">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" 
+                          Background="DimGray">
+                <TextBlock x:Name="logBlock" Foreground="Black" TextWrapping="Wrap" FontFamily="Courier" Margin="5"></TextBlock>
+            </ScrollViewer>
+        </GroupBox>
+        <Button x:Name="logClear" Click="LogClear_Click" MinWidth="22" Margin="5,5,0,0" Grid.Row="1" 
+            VerticalAlignment="Top" HorizontalAlignment="Left">X</Button>
+    </Grid>
+</UserControl>
